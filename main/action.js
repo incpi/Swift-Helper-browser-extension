@@ -43,7 +43,7 @@ function web_import() {
 function file_input(varinput) {
     listraw = varinput.split("\n").slice(1)
     for (const iterator of listraw) {
-        classlist = iterator.split(",").slice(0,setcolumn())
+        classlist = iterator.split(",").slice(0, setcolumn())
         if (classlist.length < setcolumn()) { continue }
         marks = iterator.split(",").slice(setcolumn()).slice(0, iterator.split(",").length - setcolumn())
         total = 0;
@@ -51,8 +51,9 @@ function file_input(varinput) {
         cell = document.querySelector(`#sx_model .active table tr[sid= ${classlist[2]}']`)
         if (cell) {
             var cell_count = 0
-            cell.querySelector('.checkbox input').checked = classlist[3] === "P" ? true : false;
+            cell.querySelector('.checkbox input').checked = classlist[setcolumn() - 1] === "P" ? true : false;
             for (var iter = setcolumn(); iter < cell.children.length - 2; iter++) {
+                log.log(cell)
                 if (cell.children[iter].lastChild.nodeType === 1) {
                     cell.children[iter].lastChild.lastChild.value = marks[cell_count]
                     cell_count++;
@@ -71,14 +72,14 @@ function web_export(x = 0) {    // Getting values of current time for generating
 
     filename = []
     document.querySelectorAll('#sx_model div.ui.tab.segment.active span:nth-child(1) .detail').forEach(e => filename.push(e.innerText))
-
+    log.log(setcolumn())
     let tablecsv = "";
     raw = document.querySelectorAll('#sx_model > div.content > div.ui.tab.segment.active table tr')
     for (const cell of raw) {
         cell_count = 1
         for (const iterator of cell.children) {
             mark = ""
-            tablecsv += cell_count == 3 ? "'" : ""
+            tablecsv += cell_count == (setcolumn() - 1) ? "'" : ""
             if (iterator.lastChild.nodeType === 1) {
                 if (iterator.lastChild.classList.contains('checkbox')) {
                     tablecsv += `${iterator.lastChild.childNodes[0].checked ? "P" : "A"},`
