@@ -25,7 +25,7 @@
   "content_scripts": [
     {
       "css": [
-        "/main/style.css",
+        "/css/style.css",
         "/lib/semanticui/semantic.min.css"
       ],
       "js": [
@@ -33,11 +33,11 @@
         "/lib/ulog/ulog-full.min.js",
         "/lib/semanticui/semantic.min.js",
         "/lib/semanticui/tablesort.js",
-        "/lib/common/tool.js",
-        "/lib/common/logging.js",
+        "/common/tool.js",
+        "/common/logging.js",
         "/Whatsnew/whatsnew.js",
-        "/main/web.bot/web_init.js",
-        "/main/web.bot/action.js",
+        "/main/infloat.js",
+        "/main/action.js",
         "/main/init.js"
       ],
       "matches": [

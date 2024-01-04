@@ -82,13 +82,15 @@ function fetchmenu(listdata) {
     }
 }
 function fetch_table(id, exam, student) {
-    tablegen = `<thead><tr><th>Sr No.</th><th>Student Name</th><th>Student ID</th><th>P/A</th>`
+    tablegen = `<thead><tr><th>Sr No.</th><th>Student Name</th><th>Fathers Name</th><th>Gender</th><th>Student ID</th><th>P/A</th>`
     for (i = 0; i < exam.length; i++) { tablegen += `<th>${exam[i].questionTitle}</th>` }
     tablegen += `  <th>Total</th><th>Submit</th></tr></thead><tbody>`;
     for (st = 0; st < student.length; st++) {
         tablegen += `<tr sid="${student[st].studentId}">
                     <td class="pi1 enter fluid" >${((st + 1) < 10) ? '0' + (st + 1).toString() : st + 1}</td>
-                    <td class="pi1 enter fluid" >${student[st].name}</td>
+                    <td class="pi1 enter fluid" >${student[st].studentName}</td>
+                    <td class="pi1 enter fluid">${student[st].fatherName}</td>
+                    <td class="pi1 enter fluid">${student[st].gender}</td>
                     <td class="pi1 enter fluid">${student[st].studentId}</td>
                     <td class="pi1 enter fluid left marked">
                     <div class="ui fitted slider checkbox"><input type="checkbox"><label></label></div></td>`
@@ -110,7 +112,7 @@ function load_marks_online(id, exam, student) {
                 $(`#${id} tr[sid=${student[st].studentId}] input[type="checkbox"]`).prop('checked', true);
                 examdata = sort(student[st].scores.questions, "questionID")
                 for (i = 0; i < examdata.length; i++) {
-                    document.querySelectorAll(`#${id} tr[sid="${student[st].studentId}"] input[type="number"]`)[i].value = find_obj_value(examdata, 'questionTitle', document.querySelectorAll(`#${id} thead > tr > th`)[i + 4].innerText, 'score')
+                    document.querySelectorAll(`#${id} tr[sid="${student[st].studentId}"] input[type="number"]`)[i].value = find_obj_value(examdata, 'questionTitle', document.querySelectorAll(`#${id} thead > tr > th`)[i + setcolumn()].innerText, 'score')
                 }
             } else {//a
                 $(`#${id} tr[sid=${student[st].studentId}]`).addClass("red");
@@ -198,7 +200,7 @@ function loading_data(token) {
     } else {
         const lists = { "schoolCode": "School Code :", "userMobile": "Teacher's Mobile :", "teacherCode": "Teacher's Code :", "teacherName": "Teacher's Name :" }
         //teacher data
-        container.appendChild(GetTeacherData(JSON.parse(lastdata[0]), lists))
+        container.appendChild(createElementFromHTML(`<div class="teacher_data">${GetTeacherData(JSON.parse(lastdata[0]), lists)}</div>`))
         //GET exam MENU
         fetchmenu(lastdata)
         examdetails(lastdata)
@@ -222,5 +224,4 @@ function loading_data(token) {
 function configuration() {
     loading_data(token = 'f9b9ba1f-bf3a-450e-8d67-6c2a9f7977f55')
 }
-
-
+function setcolumn() { return 6 }

@@ -28,7 +28,7 @@ function posthttp(url, body, header = [], datamessage = null) {
     }
     xhr.onload = () => {
         if (xhr.readyState == 4 && (xhr.status == 201 || xhr.status == 200)) { datamessage === null ? log.log(`Safe: ${xhr.status}`) : successDataSave(datamessage) }
-        else {datamessage === null ? log.log(`Error: ${xhr.status}`) : errorDataSave(datamessage,xhr.status) }
+        else { datamessage === null ? log.log(`Error: ${xhr.status}`) : errorDataSave(datamessage, xhr.status) }
     };
     xhr.send(body);
     return xhr.responseText
@@ -47,5 +47,35 @@ async function storageSetPromise(obj) {
         chrome.storage.local.set(obj, function (result) {
             resolve("OK");
         });
+    })
+}
+
+function errorToast(title, i, timeout) {
+    $.toast({
+        title: title,
+        message: `${i} Error`,
+        showProgress: 'bottom',
+        classProgress: 'black',
+        showIcon: true,
+        class: 'red',
+        displayTime: timeout,
+        transition: {
+            closeEasing: 'easeOutBounce'
+        }
+    })
+}
+function successToast(title, i, timeout) {
+    $.toast({
+        title: title,
+        message: i,
+        showProgress: 'bottom',
+        classProgress: 'green',
+        transition: {
+            showMethod: 'zoom',
+            showDuration: timeout,
+            hideMethod: 'fade',
+            hideDuration: timeout / 2,
+            closeEasing: 'easeOutBounce'
+        }
     })
 }
